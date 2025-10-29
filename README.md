@@ -7,5 +7,5 @@ O trabalho possui implementações back-end e front-end, todas feitas utilizando
 
 O trabalho ainda está incompleto, faltando ainda janelas da GUI a serem implementadas
 
-Em geral, este trabalho foca-se em implementar os principais conceitos de orientação ao objeto, como classe, interfaces, sobrescrita, sobrecarga, polimorfismo e tratamento de exceções. 
+Em geral, este trabalho foca-se em implementar os principais conceitos de orientação ao objeto, como classes, interfaces, sobrescrita, sobrecarga, polimorfismo e tratamento de exceções. 
 
