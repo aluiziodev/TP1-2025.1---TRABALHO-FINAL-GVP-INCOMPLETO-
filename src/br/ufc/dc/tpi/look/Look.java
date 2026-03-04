@@ -9,9 +9,10 @@ import br.ufc.dc.tpi.itens.*;
 
 
 public class Look implements Serializable {
+	private static final long serialVersionUID = 1L;
 	protected String nome;
 	protected HashMap<Class<? extends Itens>, Itens> look;
-	protected Vector<Utilizaçao> utilizaçoes;
+	protected Vector<Utilizacao> utilizaçoes;
 
 	
 	public Look(String nome) {
@@ -34,6 +35,10 @@ public class Look implements Serializable {
 		for(Itens x : i)
 			look.put(x.getClass(), x);
 	}
+
+	public HashMap<Class<? extends Itens>, Itens> getItens(){
+		return new HashMap<>(look);
+	}
 	
 	public void print_look() {
 		for(Entry<Class<? extends Itens>, Itens> chave : look.entrySet()) {
@@ -50,7 +55,7 @@ public class Look implements Serializable {
 	}
 	
 	public void registrar_utilizaçao(String event) {
-		Utilizaçao u = new Utilizaçao(new GregorianCalendar(), event);
+		Utilizacao u = new Utilizacao(new GregorianCalendar(), event);
 		utilizaçoes.add(u);
 		
 		for(Itens i : look.values()) {
@@ -59,11 +64,13 @@ public class Look implements Serializable {
 	}
 	
 	public void registrar_utilizaçao(String event, GregorianCalendar gc) {
-		Utilizaçao u = new Utilizaçao(gc, event);
+		Utilizacao u = new Utilizacao(gc, event);
 		utilizaçoes.add(u);
 		
 		for(Itens i : look.values()) {
-			i.registrar_uso();
+			if (i!=null) {
+				i.registrar_uso();
+			}
 		}
 	}
 	
@@ -71,7 +78,7 @@ public class Look implements Serializable {
 		return utilizaçoes.size();
 	}
 	
-	public boolean verifica_utilizaçao(Utilizaçao u) {
+	public boolean verifica_utilizaçao(Utilizacao u) {
 		GregorianCalendar gc = u.get_data();
 		if(utilizaçoes.contains(u)) {
 			System.out.println("Esse look foi utilizado no dia " + gc.getTime() + " na ocasiao " + u.get_situaçao());
@@ -86,12 +93,12 @@ public class Look implements Serializable {
 	
 	
 	public void lista_utilizaçoes() {
-		for(Utilizaçao u : utilizaçoes) {
+		for(Utilizacao u : utilizaçoes) {
 			System.out.println(u.get_situaçao() + " : " + u.get_data().getTime());
 		}
 	}
 	
-	public Vector<Utilizaçao> getutilizaçoes(){
+	public Vector<Utilizacao> getutilizaçoes(){
 		return utilizaçoes;
 	}
 	

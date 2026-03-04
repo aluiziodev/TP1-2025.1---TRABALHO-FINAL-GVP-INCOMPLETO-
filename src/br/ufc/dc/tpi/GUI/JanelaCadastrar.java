@@ -8,6 +8,10 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
+import br.ufc.dc.tpi.GUI.Listeners.CadastroItensListener;
+import br.ufc.dc.tpi.GUI.Listeners.CadastroLookListener;
+import br.ufc.dc.tpi.GUI.Listeners.MouseListener;
+
 public class JanelaCadastrar extends JFrame{
 	private static final long serialVersionUID = 1L;
 

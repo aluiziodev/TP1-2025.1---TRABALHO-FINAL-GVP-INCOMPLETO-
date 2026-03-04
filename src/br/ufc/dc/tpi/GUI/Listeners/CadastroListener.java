@@ -1,9 +1,11 @@
-package br.ufc.dc.tpi.GUI;
+package br.ufc.dc.tpi.GUI.Listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import br.ufc.dc.tpi.GUI.JanelaCadastrar;
 
 public class CadastroListener implements ActionListener{
 	private JFrame janelainicio;

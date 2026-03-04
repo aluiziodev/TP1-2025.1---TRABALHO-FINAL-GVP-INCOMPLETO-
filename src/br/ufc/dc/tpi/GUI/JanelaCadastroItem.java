@@ -21,11 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
 import br.ufc.dc.tpi.itens.*;
 import br.ufc.dc.tpi.vestuario.BancoItens;
+import br.ufc.dc.tpi.GUI.Listeners.TextFilter;
 import br.ufc.dc.tpi.enums.Conservaçao;
 import br.ufc.dc.tpi.enums.Tamanho;
 import br.ufc.dc.tpi.exception.CadastroInvalidoException;
@@ -73,6 +75,7 @@ public class JanelaCadastroItem extends JFrame {
         labelTipo.setBounds(10, 0, 190, 20);
         
         JTextField nome = new JTextField();
+        ((AbstractDocument) nome.getDocument()).setDocumentFilter(new TextFilter());
         nome.setBounds(10, 70, 190, 30);
         JLabel labelnome = new JLabel("NOME: ");
         labelnome.setForeground(Color.WHITE);
@@ -81,12 +84,14 @@ public class JanelaCadastroItem extends JFrame {
         
         
         JTextField cor = new JTextField();
+        ((AbstractDocument) cor.getDocument()).setDocumentFilter(new TextFilter());
         cor.setBounds(240,140, 60, 30);
         JLabel labelCor= new JLabel("COR: ");
         labelCor.setForeground(Color.WHITE);
         labelCor.setBounds(240, 120, 190, 20);
         
         JTextField origem = new JTextField();
+        ((AbstractDocument) origem.getDocument()).setDocumentFilter(new TextFilter());
         origem.setBounds(10, 140, 190, 30);
         JLabel labelOrigem= new JLabel("ORIGEM: ");
         labelOrigem.setForeground(Color.WHITE);
@@ -174,69 +179,54 @@ public class JanelaCadastroItem extends JFrame {
         
         JButton salvar = new JButton("SALVAR");
         salvar.setBounds(10, 570, 100, 30);
-        salvar.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				try {
-				String inome = nome.getText();
-				String icor = cor.getText();         
-		        String iorigem = origem.getText();       
-		        Tamanho itamanho=  (Tamanho) tamanho.getSelectedItem(); 
-		        String iconservaçao = conservaçao.getSelection() != null ? conservaçao.getSelection().getActionCommand() : "Indefinido";
-		        String selecionado = (String) roupas.getSelectedItem();
-		        String itam_calç = tam_calçado.getSelectedText();
-		        
-		        validarCadastro(inome, icor, iorigem, conservaçao);
-		        
-			        if (selecionado.equals("SuperiorInterno")) {
-			        	Itens i = new ParteSuperiorInt(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
-			        	itens.registrar_item(i);	
-			           
-			        }
-			        else if (selecionado.equals("Intimas")) {
-			        	Itens i = new RoupasIntimas(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
-			        	itens.registrar_item(i);
-			           
-			        } 
-			        else if (selecionado.equals("SuperiorExterno")) {
-			        	Itens i = new ParteSuperiorExt(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
-			        	itens.registrar_item(i);
-			            
-			        } 
-			        else if (selecionado.equals("Inferior")) {
-			        	Itens i = new ParteInferiorCintura(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
-			        	itens.registrar_item(i);
-			        }
-			        else if (selecionado.equals("Calçados")) {
-			        	Itens i = new Calçados(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itam_calç);
-			        	itens.registrar_item(i);
-			            
-			        }
-			        else if (selecionado.equals("AcessorioCabeça")) {
-			        	Itens i = new AcsCabeça(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
-			        	itens.registrar_item(i);
-			        }
-			        else if(selecionado.equals("AcessorioBraço")) {
-			        	Itens i = new AcsBraço(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
-			        	itens.registrar_item(i);
-			        }
-			        else if(selecionado.equals("AcessorioPescoço")) {
-			        	Itens i = new AcsPescoço(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
-			        	itens.registrar_item(i);
-			        }
-			        
-			        
-			    salvaItens(itens.getBancoItens());
-		        nome.setText("");
-	            cor.setText("");
-	            origem.setText("");
-	            conservaçao.clearSelection();
-	            tam_calçado.setText("");
-				}catch(Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Cadastro Invalido", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
+        salvar.addActionListener(e -> {
+        try {
+            String inome = nome.getText();
+            String icor = cor.getText();
+            String iorigem = origem.getText();
+            Tamanho itamanho = (Tamanho) tamanho.getSelectedItem();
+            String selecionado = (String) roupas.getSelectedItem();
+
+            ButtonModel sel = conservaçao.getSelection();
+            String iconservaçao = (sel != null) ? sel.getActionCommand() : null;
+
+            String itam_calç = tam_calçado.getText();
+
+            validarCadastro(inome, icor, iorigem, conservaçao);
+
+            Itens item = null;
+
+            switch (selecionado) {
+                case "SuperiorInterno" ->
+                    item = new ParteSuperiorInt(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
+                case "Intimas" ->
+                    item = new RoupasIntimas(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
+                case "SuperiorExterno" ->
+                    item = new ParteSuperiorExt(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
+                case "Inferior" ->
+                    item = new ParteInferiorCintura(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itamanho);
+                case "Calçados" ->
+                    item = new Calçados(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem, itam_calç);
+                case "AcessorioCabeça" ->
+                    item = new AcsCabeça(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
+                case "AcessorioBraço" ->
+                    item = new AcsBraço(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
+                case "AcessorioPescoço" ->
+                    item = new AcsPescoço(inome, icor, Conservaçao.valueOf(iconservaçao), iorigem);
+            }
+
+            itens.registrar_item(item);
+            salvaItens(itens.getBancoItens());
+
+            JOptionPane.showMessageDialog(this, "Item cadastrado com sucesso!");
+
+            limparCampos(nome, cor, origem, tam_calçado, tamanho, roupas, conservaçao);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(),
+                        "Cadastro Inválido", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         
         JButton cancelar = new JButton("CANCELAR");
         cancelar.setBounds(110, 570, 130, 30);
@@ -282,42 +272,59 @@ public class JanelaCadastroItem extends JFrame {
         
 	}
 	
-	  public void validarCadastro(String nome, String cor, String origem, ButtonGroup conservaçao) throws CadastroInvalidoException {
-      	if(nome.isBlank()) 
-      		throw new CadastroInvalidoException("NOME");
-      	
-      	if(cor.isBlank()) 
-      		throw new CadastroInvalidoException("COR");
-      	
-      	if(origem.isBlank())
-      		throw new CadastroInvalidoException("ORIGEM");
-      	
-      	if(conservaçao.getSelection() == null)
-      		throw new CadastroInvalidoException("CONSERVAÇAO");
-      }
-	  
-	  public void salvaItens(Map<String, Itens> itens) {
-		  try(FileOutputStream fos = new FileOutputStream(arqvitens);
-				  ObjectOutputStream oos = new ObjectOutputStream(fos)){
-			  oos.writeObject(itens);
-			  oos.close();
-		  }catch(Exception e) {
-			  JOptionPane.showMessageDialog(this, "ERRO AO SALVAR: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-		  }
-	  }
-	  
-	  public Map<String, Itens> carregaItens(){
-		  Map<String, Itens> itensArqv = new HashMap<>();
-	        if (!arqvitens.exists()) return itensArqv;
-	        
-	        try (FileInputStream arqv = new FileInputStream(arqvitens);
-	             ObjectInputStream obj = new ObjectInputStream(arqv)) {
-	            itensArqv = (Map<String, Itens>) obj.readObject();
-	        } catch (Exception e) {
-	        	JOptionPane.showMessageDialog(this, "ERRO AO CARREGAR: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-	        }
-	       
+    public void validarCadastro(String nome, String cor, String origem, ButtonGroup conservaçao) throws CadastroInvalidoException {
+    if(nome.isBlank()) 
+        throw new CadastroInvalidoException("NOME");
+    
+    if(cor.isBlank()) 
+        throw new CadastroInvalidoException("COR");
+    
+    if(origem.isBlank())
+        throw new CadastroInvalidoException("ORIGEM");
+    
+    if(conservaçao.getSelection() == null)
+        throw new CadastroInvalidoException("CONSERVAÇAO");
+    }
 
-	        return itensArqv;
-	  }
+    public void limparCampos(JTextField nome,
+                        JTextField cor,
+                        JTextField origem,
+                        JFormattedTextField tam_calçado,
+                        JComboBox<Tamanho> tamanho,
+                        JComboBox<String> roupas,
+                        ButtonGroup conservacao){
+        
+        nome.setText("");
+	    cor.setText("");
+	    origem.setText("");
+	    conservacao.clearSelection();
+	    tam_calçado.setText("");
+        tamanho.setSelectedIndex(0);
+        roupas.setSelectedIndex(0);
+    }
+    
+    public void salvaItens(Map<String, Itens> itens) {
+        try(FileOutputStream fos = new FileOutputStream(arqvitens);
+                ObjectOutputStream oos = new ObjectOutputStream(fos)){
+            oos.writeObject(itens);
+            oos.close();
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(this, "ERRO AO SALVAR: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public Map<String, Itens> carregaItens(){
+        Map<String, Itens> itensArqv = new HashMap<>();
+        if (!arqvitens.exists()) return itensArqv;
+        
+        try (FileInputStream arqv = new FileInputStream(arqvitens);
+                ObjectInputStream obj = new ObjectInputStream(arqv)) {
+            itensArqv = (Map<String, Itens>) obj.readObject();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERRO AO CARREGAR: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        
+
+        return itensArqv;
+    }
 }

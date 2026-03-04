@@ -1,9 +1,14 @@
 package br.ufc.dc.tpi.GUI;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 import javax.swing.*;
+
+import br.ufc.dc.tpi.GUI.Listeners.CadastroListener;
+import br.ufc.dc.tpi.GUI.Listeners.EstatisticaItensListener;
+import br.ufc.dc.tpi.GUI.Listeners.ItensListener;
+import br.ufc.dc.tpi.GUI.Listeners.LooksListener;
+import br.ufc.dc.tpi.GUI.Listeners.MouseListener;
 
 public class JanelaInicial extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -18,20 +23,23 @@ public class JanelaInicial extends JFrame {
         
         JPanel painel = new JPanel();
         JButton cadastro = new JButton("CADASTRAR ITENS OU LOOKS");
-        JButton estatisticas = new JButton("ESTATISTICAS");
+        JButton estatisticaItens = new JButton("ESTATISTICA ITENS");
         JButton itens = new JButton("ITENS");
         JButton looks = new JButton("LOOKS");
         JButton emprestados = new JButton("ITENS EMPREESTADOS");
+        JButton estatisticaLooks = new JButton("ESTATISTICA LOOKS");
         
         cadastro.addMouseListener(new MouseListener());
-        estatisticas.addMouseListener(new MouseListener());
+        estatisticaItens.addMouseListener(new MouseListener());
         itens.addMouseListener(new MouseListener());
         looks.addMouseListener(new MouseListener());
         emprestados.addMouseListener(new MouseListener());
-        
+        estatisticaLooks.addMouseListener(new MouseListener());
+
         cadastro.addActionListener(new CadastroListener(this));
         itens.addActionListener(new ItensListener(this));
         looks.addActionListener(new LooksListener(this));
+        estatisticaItens.addActionListener(new EstatisticaItensListener(this));
         
         painel.setLayout(null);
         
@@ -43,13 +51,13 @@ public class JanelaInicial extends JFrame {
         cadastro.setContentAreaFilled(true);
         cadastro.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 14));
         
-        estatisticas.setBounds(30, 210, 300, 150);
-        estatisticas.setBackground(Color.decode("#536c8d")); 
-        estatisticas.setForeground(Color.WHITE);              
-        estatisticas.setFocusPainted(false);                 
-        estatisticas.setBorderPainted(false);                 
-        estatisticas.setContentAreaFilled(true);
-        estatisticas.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 18));
+        estatisticaItens.setBounds(30, 210, 300, 150);
+        estatisticaItens.setBackground(Color.decode("#536c8d")); 
+        estatisticaItens.setForeground(Color.WHITE);              
+        estatisticaItens.setFocusPainted(false);                 
+        estatisticaItens.setBorderPainted(false);                 
+        estatisticaItens.setContentAreaFilled(true);
+        estatisticaItens.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 18));
         
         itens.setBounds(370, 40, 300, 150);
         itens.setBackground(Color.decode("#536c8d"));  
@@ -67,21 +75,30 @@ public class JanelaInicial extends JFrame {
         looks.setContentAreaFilled(true);
         looks.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 18));
         
-        emprestados.setBounds(370, 210, 300, 150);
+        emprestados.setBounds(710, 210, 300, 150);
         emprestados.setBackground(Color.decode("#536c8d"));  
         emprestados.setForeground(Color.WHITE);              
         emprestados.setFocusPainted(false);                  
         emprestados.setBorderPainted(false);                
         emprestados.setContentAreaFilled(true);
         emprestados.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 18));
+
+        estatisticaLooks.setBounds(370, 210, 300, 150);
+        estatisticaLooks.setBackground(Color.decode("#536c8d")); 
+        estatisticaLooks.setForeground(Color.WHITE);              
+        estatisticaLooks.setFocusPainted(false);                 
+        estatisticaLooks.setBorderPainted(false);                 
+        estatisticaLooks.setContentAreaFilled(true);
+        estatisticaLooks.setFont(new Font("𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿", Font.BOLD, 18));
         
         painel.setBounds(30, 140, 800, 480);
         painel.setBackground(Color.decode("#5c4f79"));
         painel.add(cadastro);
-        painel.add(estatisticas);
+        painel.add(estatisticaItens);
         painel.add(itens);
         painel.add(looks);
         painel.add(emprestados);
+        painel.add(estatisticaLooks);
         
         setLayout(new BorderLayout());
 

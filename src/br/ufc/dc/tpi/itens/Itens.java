@@ -5,6 +5,7 @@ import java.io.Serializable;
 import br.ufc.dc.tpi.enums.*;
 
 public abstract class Itens implements Serializable{
+		private static final long serialVersionUID = 1L;
 		protected String nome;
 		protected String cor;
 		protected Conservaçao conservaçao;

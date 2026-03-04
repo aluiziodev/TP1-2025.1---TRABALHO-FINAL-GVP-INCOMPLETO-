@@ -1,22 +1,24 @@
-package br.ufc.dc.tpi.GUI;
+package br.ufc.dc.tpi.GUI.Listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-public class LooksListener implements ActionListener{
+import br.ufc.dc.tpi.GUI.JanelaItens;
+
+public class ItensListener implements ActionListener{
 	private JFrame janela;
 
 
-    public LooksListener(JFrame Janela) {
+    public ItensListener(JFrame Janela) {
         this.janela = Janela;
     }
 	
 	public void actionPerformed(ActionEvent e) {
 		Object evento = e.getSource();
 		
-		JanelaLook look = new JanelaLook();
+		JanelaItens Cadastro = new JanelaItens();
 		
 		this.janela.dispose();
 		

@@ -1,14 +1,16 @@
 package br.ufc.dc.tpi.look;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Utilizaçao {
+public class Utilizacao implements Serializable{ 
+	private static final long serialVersionUID = 1L;
 	protected GregorianCalendar data;
 	protected String situaçao;
 	
 	
-	public Utilizaçao( GregorianCalendar data, String u) {
+	public Utilizacao( GregorianCalendar data, String u) {
 		this.data = data;
 		this.situaçao = u;
 	}

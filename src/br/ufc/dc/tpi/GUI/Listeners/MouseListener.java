@@ -1,5 +1,5 @@
 
-package br.ufc.dc.tpi.GUI;
+package br.ufc.dc.tpi.GUI.Listeners;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

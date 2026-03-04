@@ -34,15 +34,14 @@ public class BancoLooks {
 		bank_look = looks;
 	}
 	
-	public Look get_look(String nome) throws NaoConstaLookException{
-		for(Look l : bank_look) {
-			if(l.get_nome()==nome) {
-				return l;
-			}
-		}
-		throw new NaoConstaLookException(nome);
-		
-	}
+	public Look get_look(String nome) throws NaoConstaLookException {
+    for (Look l : bank_look) {
+        if (l.get_nome().equals(nome)) {
+            return l;
+        }
+    }
+    throw new NaoConstaLookException(nome);
+}
 	
 	public boolean salvarLook(Look l) {
 		if(!bank_look.contains(l)) {
