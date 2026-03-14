@@ -5,7 +5,5 @@ O trabalho baseia-se na implementação de um gestor de vestuário pessoal, onde
 
 O trabalho possui implementações back-end e front-end, todas feitas utilizando a linguagem java, além de possuir persistência dos dados por meio de arquivos. 
 
-O trabalho ainda está incompleto, faltando ainda janelas da GUI a serem implementadas
-
 Em geral, este trabalho foca-se em implementar os principais conceitos de orientação ao objeto, como classes, interfaces, sobrescrita, sobrecarga, polimorfismo e tratamento de exceções. 
 
